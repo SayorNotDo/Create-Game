@@ -35,6 +35,13 @@ private:
         if (state[SDL_SCANCODE_ESCAPE]) {
             mIsRunning = false;
         }
+	mPaddleDir = 0;
+	if (state[SDL_SCANCODE_W]) {
+		mPaddleDir -= 1;
+	}
+	if (state[SDL_SCANCODE_S]) {
+		mPaddleDir += 1;
+	}
 	};
 	void UpdateGame();
 	void GenerateOutput();
