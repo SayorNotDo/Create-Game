@@ -92,18 +92,33 @@ void Game::GenerateOutput() {
 }
 
 void Game::UpdateGame() {
+	// Wait until 16ms has elapsed since last frame
+	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16));
 	// Delta time is the difference in ticks from last time
 	// (Converted to seconds;
 	float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
 	// Update tick counts (for next frame)
 	mTicksCount = SDL_GetTicks();
+	if (deltaTime > 0.05f)
+	{
+	deltaTime = 0.05f;
+	}
 	// TODO: Update objects in game world as function of delta time;
-	// ...
+	if (mPaddleDir != 0) {
+		mPaddlePos.y += mPaddleDir * 300.0f * deltaTime;
+		// Make sure paddle doesn't move off screen!
+		if (mPaddlePos.y < (paddleH/2.0f + thickness)) {
+			mPaddlePos.y = paddleH/2.0f + thickness;
+		}
+		else if (mPaddlePos.y > (768.0f - paddleH/2.0f - thickness)) {
+			mPaddlePos.y = 768.0f - paddleH/2.0f - thickness;
+		}	
+	}
 }
+
 
 void Game::Shutdown() {
     SDL_DestroyRenderer(mRenderer);
     SDL_DestroyWindow(mWindow);
     SDL_Quit();
 }
-
