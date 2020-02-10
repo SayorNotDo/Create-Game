@@ -131,10 +131,10 @@ void Game::UpdateGame() {
 	diff = (diff > 0.0f) ? diff : -diff;
 	if (
 		// Our y-different is small enough
-		 diff <= paddleH / 2.0f &&
+		 diff <= paddleH/2.0f &&
 		 mBallPos.x <= 25.0f && mBallPos.x >= 20.0f &&
 		// The ball is moving to the left
-		mBallVel.x < 0.0f
+		 mBallVel.x < 0.0f
 	   ) {
 		mBallVel.x *= -1.0f;
 	}
