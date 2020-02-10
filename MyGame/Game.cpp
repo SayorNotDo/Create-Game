@@ -114,6 +114,11 @@ void Game::UpdateGame() {
 			mPaddlePos.y = 768.0f - paddleH/2.0f - thickness;
 		}	
 	}
+	mBallPos.x += mBallVel.x * deltaTime;
+	mBallPos.y += mBallVel.y * deltaTime;
+	if (mBallPos.y <= thickness) {
+		mBallVel.y *= -1;
+	}
 }
 
 
