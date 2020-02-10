@@ -116,8 +116,24 @@ void Game::UpdateGame() {
 	}
 	mBallPos.x += mBallVel.x * deltaTime;
 	mBallPos.y += mBallVel.y * deltaTime;
-	if (mBallPos.y <= thickness) {
+	if (mBallPos.y <= thickness && mBallVel.y < 0.0f) {
 		mBallVel.y *= -1;
+	}
+	if (mBallPos.y >= 768-thickness && mBallVel.y > 0.0f) {
+		mBallVel.y *= -1;
+	}
+	// difference of the value
+	float diff = mPaddlePos.y - mBallPos.y;
+	// Take absolute value of difference
+	diff = (diff > 0.0f) ? diff : -diff;
+	if (
+		// Our y-different is small enough
+		diff <= paddleH / 2.0f &&
+		// BallPos.x <= 25.0f && mBallPos.x >= 20.0f &&
+		// The ball is moving to the left
+		mBallVel.x < 0.0f
+	   ) {
+		mBallVel.x *= -1.0f;
 	}
 }
 
