@@ -122,6 +122,9 @@ void Game::UpdateGame() {
 	if (mBallPos.y >= 768-thickness && mBallVel.y > 0.0f) {
 		mBallVel.y *= -1;
 	}
+	if (mBallPos.x >=1024-thickness && mBallVel.x > 0.0f) {
+		mBallVel.x *= -1.0f;
+	}
 	// difference of the value
 	float diff = mPaddlePos.y - mBallPos.y;
 	// Take absolute value of difference
