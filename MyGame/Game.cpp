@@ -28,9 +28,9 @@ bool Game::Initialize() {
         return false;
     }
     mPaddlePos.x = 10.0f;
-	mPaddlePos.y = 768.0f/2.0f;
+	mPaddlePos.y = 700.0f/2.0f;
     mBallPos.x = 1024.0f/2.0f;
-	mBallPos.y = 768.0f/2.0f;
+	mBallPos.y = 700.0f/2.0f;
 	mBallVel.x = -200.0f;
 	mBallVel.y = 235.0f;
     return true;
@@ -110,8 +110,8 @@ void Game::UpdateGame() {
 		if (mPaddlePos.y < (paddleH/2.0f + thickness)) {
 			mPaddlePos.y = paddleH/2.0f + thickness;
 		}
-		else if (mPaddlePos.y > (768.0f - paddleH/2.0f - thickness)) {
-			mPaddlePos.y = 768.0f - paddleH/2.0f - thickness;
+		else if (mPaddlePos.y > (700.0f - paddleH/2.0f - thickness)) {
+			mPaddlePos.y = 700.0f - paddleH/2.0f - thickness;
 		}	
 	}
 	mBallPos.x += mBallVel.x * deltaTime;
@@ -119,7 +119,7 @@ void Game::UpdateGame() {
 	if (mBallPos.y <= thickness && mBallVel.y < 0.0f) {
 		mBallVel.y *= -1;
 	}
-	if (mBallPos.y >= 768-thickness && mBallVel.y > 0.0f) {
+	if (mBallPos.y >= 700-thickness && mBallVel.y > 0.0f) {
 		mBallVel.y *= -1;
 	}
 	if (mBallPos.x >=1024-thickness && mBallVel.x > 0.0f) {
