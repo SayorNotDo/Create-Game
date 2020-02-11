@@ -27,9 +27,9 @@ bool Game::Initialize() {
         SDL_Log("Failed to create renderer: %s", SDL_GetError());
         return false;
     }
-    mPaddlePos.x = 10.0f;
+    	mPaddlePos.x = 10.0f;
 	mPaddlePos.y = 700.0f/2.0f;
-    mBallPos.x = 1024.0f/2.0f;
+    	mBallPos.x = 1024.0f/2.0f;
 	mBallPos.y = 700.0f/2.0f;
 	mBallVel.x = -200.0f;
 	mBallVel.y = 235.0f;
@@ -68,19 +68,27 @@ void Game::GenerateOutput() {
     wall.y = 700 - thickness;
     SDL_RenderFillRect(mRenderer, &wall);
     // Draw the right wall
-    wall.x = 1024 - thickness;
-    wall.y = 0;
-    wall.w = thickness;
-    wall.h = 700;
-    SDL_RenderFillRect(mRenderer, &wall);
+   // wall.x = 1024 - thickness;
+   // wall.y = 0;
+   // wall.w = thickness;
+   // wall.h = 700;
+   // SDL_RenderFillRect(mRenderer, &wall);
     // Draw the paddle
     SDL_Rect paddle{
-    static_cast<int>(mPaddlePos.x),
-    static_cast<int>(mPaddlePos.y - paddleH/2),
-    thickness,
-    static_cast<int>(paddleH)
+    	static_cast<int>(mPaddlePos.x),
+    	static_cast<int>(mPaddlePos.y - paddleH/2),
+    	thickness,
+    	static_cast<int>(paddleH)
     };
     SDL_RenderFillRect(mRenderer, &paddle);
+    // Draw the another paddle
+    SDL_Rect ot_paddle{
+    	static_cast<int>(1204 - mPaddlePos.x -thickness),
+	static_cast<int>(mPaddlePos.y - paddleH/2),
+	thickness,
+	static_cast<int>(paddleH)
+    };   
+    SDL_RenderFillRect(mRenderer, &ot_paddle);
     SDL_Rect ball{
         static_cast<int>(mBallPos.x - thickness/2),
         static_cast<int>(mBallPos.y - thickness/2),
