@@ -42,6 +42,13 @@ private:
 	if (state[SDL_SCANCODE_S]) {
 		mPaddleDir += 1;
 	}
+	ot_PaddleDir = 0;
+	if (state[SDL_SCANCODE_I]) {
+		ot_PaddleDir -= 1;
+	}
+	if (state[SDL_SCANCODE_K]) {
+		ot_PaddleDir += 1;
+	}
 	};
 	void UpdateGame();
 	void GenerateOutput();
@@ -53,6 +60,9 @@ private:
 	bool mIsRunning;
 	// Direction of paddle
 	int mPaddleDir;
+	// Direction of ot_paddle
+	int ot_PaddleDir;
+	Vector2 ot_PaddlePos;
 	Vector2 mPaddlePos;
 	Vector2 mBallPos;
 	Vector2 mBallVel;

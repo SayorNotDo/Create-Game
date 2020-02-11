@@ -33,6 +33,8 @@ bool Game::Initialize() {
 	mBallPos.y = 700.0f/2.0f;
 	mBallVel.x = -200.0f;
 	mBallVel.y = 235.0f;
+	ot_PaddlePos.x = 1024 - mPaddlePos.x - thickness;
+	ot_PaddlePos.y = 700.0f/2.0f;
     return true;
 }
 
@@ -83,8 +85,8 @@ void Game::GenerateOutput() {
     SDL_RenderFillRect(mRenderer, &paddle);
     // Draw the another paddle
     SDL_Rect ot_paddle{
-    	static_cast<int>(1204 - mPaddlePos.x -thickness),
-	static_cast<int>(mPaddlePos.y - paddleH/2),
+    	static_cast<int>(ot_PaddlePos.x),
+	static_cast<int>(ot_PaddlePos.y - paddleH/2),
 	thickness,
 	static_cast<int>(paddleH)
     };   
@@ -121,6 +123,15 @@ void Game::UpdateGame() {
 		else if (mPaddlePos.y > (700.0f - paddleH/2.0f - thickness)) {
 			mPaddlePos.y = 700.0f - paddleH/2.0f - thickness;
 		}	
+	}
+	if (ot_PaddleDir != 0) {
+		ot_PaddlePos.y += ot_PaddleDir * 300.0f * deltaTime;
+		if (ot_PaddlePos.y < (paddleH/2.0f + thickness)) {
+			ot_PaddlePos.y = paddleH/2.0f + thickness;
+		}
+		else if (ot_PaddlePos.y > (700.0f - paddleH/2.0f - thickness)) {
+			ot_PaddlePos.y = 700.0f - paddleH/2.0f - thickness;
+		}
 	}
 	mBallPos.x += mBallVel.x * deltaTime;
 	mBallPos.y += mBallVel.y * deltaTime;
