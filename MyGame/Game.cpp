@@ -31,8 +31,12 @@ bool Game::Initialize() {
 	mPaddlePos.y = 700.0f/2.0f;
     	mBallPos.x = 1024.0f/2.0f;
 	mBallPos.y = 700.0f/2.0f;
-	mBallVel.x = -200.0f;
-	mBallVel.y = 235.0f;
+	ot_BallPos.x = 1024.0f/2.0f;
+	ot_BallPos.y = 710.0f/2.0f;
+	ot_BallVel.x = -200.0f;
+	ot_BallVel.y = 235.0f;
+	mBallVel.x = 200.0f;
+	mBallVel.y = -235.0f;
 	ot_PaddlePos.x = 1024 - mPaddlePos.x - thickness;
 	ot_PaddlePos.y = 700.0f/2.0f;
     return true;
@@ -98,6 +102,13 @@ void Game::GenerateOutput() {
         thickness
     };
     SDL_RenderFillRect(mRenderer, &ball);
+    SDL_Rect ot_ball{
+    	static_cast<int>(ot_BallPos.x - thickness/2),
+	static_cast<int>(ot_BallPos.y - thickness/2),
+	thickness,
+	thickness
+    };
+    SDL_RenderFillRect(mRenderer, &ot_ball);
     SDL_RenderPresent(mRenderer);
 }
 
@@ -141,13 +152,26 @@ void Game::UpdateGame() {
 	if (mBallPos.y >= 700-thickness && mBallVel.y > 0.0f) {
 		mBallVel.y *= -1;
 	}
-	if (mBallPos.x >=1024-thickness && mBallVel.x > 0.0f) {
-		mBallVel.x *= -1.0f;
+	//if (mBallPos.x >=1024-thickness && mBallVel.x > 0.0f) {
+		//mBallVel.x *= -1.0f;
+	//}
+	ot_BallPos.x += ot_BallVel.x * deltaTime;
+	ot_BallPos.y += ot_BallVel.y * deltaTime;
+	if (ot_BallPos.y <= thickness && ot_BallVel.y < 0.0f) {
+		ot_BallVel.y *= -1;
 	}
+	if (ot_BallPos.y >= 700 - thickness && ot_BallVel.y > 0.0f) {
+		ot_BallVel.y *= -1;
+	}
+	//if (ot_BallPos.x >= 1024 - thickness && ot_BallVel.x > 0.0f) {
+		//ot_BallVel.x *= -1.0f;
+	//}
 	// difference of the value
 	float diff = mPaddlePos.y - mBallPos.y;
+	float diff2 = mPaddlePos.y - ot_BallPos.y;	
 	// Take absolute value of difference
 	diff = (diff > 0.0f) ? diff : -diff;
+	diff2 = (diff2 > 0.0f) ? diff2 : -diff2;
 	if (
 		// Our y-different is small enough
 		 diff <= paddleH/2.0f &&
@@ -157,18 +181,38 @@ void Game::UpdateGame() {
 	   ) {
 		mBallVel.x *= -1.0f;
 	}
+	if (
+		// Another ball y-difference is small enough
+		 diff2 <= paddleH/2.0f &&
+		 ot_BallPos.x <= 25.0f && ot_BallPos.x >= 20.0f &&
+		// Another ball is moving to the left
+		 ot_BallVel.x < 0.0f
+	   ) {
+		ot_BallVel.x *= -1.0f;
+	}
 	// difference of the value
 	float ot_diff = ot_PaddlePos.y - mBallPos.y;
+	float ot_diff2 = ot_PaddlePos.y - ot_BallPos.y;
 	// Take absolute value of difference
-	ot_diff = (ot_diff > 0.0f) ? ot_diff : ot_diff;
+	ot_diff = (ot_diff > 0.0f) ? ot_diff : -ot_diff;
+	ot_diff2 = (ot_diff2 > 0.0f) ? ot_diff2 : -ot_diff2;
 	if (
 		// Our y-different is small enough
 		ot_diff <= paddleH/2.0f &&
-		mBallPos.x <= 1020.0f && mBallPos.x >=1000.0f &&
+		mBallPos.x <= 1020.0f && mBallPos.x >= 1000.0f &&
 		// The ball is moving to the right
 		mBallVel.x > 0.0f		
 	) {
 		mBallVel.x *= -1.0f;
+	}
+	if (
+		// Another ball y-different is small enough
+		ot_diff2 <= paddleH/2.0f &&
+		ot_BallPos.x <= 1020.0f && ot_BallPos.x >= 1000.0f &&
+		// Another ball is moving to the right
+		ot_BallVel.x > 0.0f		
+	   ) {
+		ot_BallVel.x *= -1.0f;
 	}
 }
 

@@ -66,6 +66,8 @@ private:
 	Vector2 mPaddlePos;
 	Vector2 mBallPos;
 	Vector2 mBallVel;
+	Vector2 ot_BallVel;
+	Vector2 ot_BallPos;
 	Uint32 mTicksCount;
 };
 
