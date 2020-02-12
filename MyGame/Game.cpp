@@ -9,7 +9,7 @@ bool Game::Initialize() {
         SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
         return false;
     }
-    mWindow = SDL_CreateWindow("Game Programming in C++",
+    mWindow = SDL_CreateWindow("Pong",
                                100,
                                100,
                                1024,
@@ -155,6 +155,19 @@ void Game::UpdateGame() {
 		// The ball is moving to the left
 		 mBallVel.x < 0.0f
 	   ) {
+		mBallVel.x *= -1.0f;
+	}
+	// difference of the value
+	float ot_diff = ot_PaddlePos.y - mBallPos.y;
+	// Take absolute value of difference
+	ot_diff = (ot_diff > 0.0f) ? ot_diff : ot_diff;
+	if (
+		// Our y-different is small enough
+		ot_diff <= paddleH/2.0f &&
+		mBallPos.x <= 1020.0f && mBallPos.x >=1000.0f &&
+		// The ball is moving to the right
+		mBallVel.x > 0.0f		
+	) {
 		mBallVel.x *= -1.0f;
 	}
 }
